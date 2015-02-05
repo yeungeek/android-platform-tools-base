@@ -83,7 +83,8 @@ public interface AndroidSourceDirectorySet extends PatternFilterable {
 
 
     /**
-     * Returns the resolved directories.
+     * Returns the source directories.
+     *
      * @return a non null set of File objects.
      */
     @NonNull

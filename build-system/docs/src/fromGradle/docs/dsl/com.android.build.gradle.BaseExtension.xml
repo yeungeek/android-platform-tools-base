@@ -26,6 +26,7 @@
             <tr><td>resourcePrefix</td></tr>
             <tr><td>testVariants</td></tr>
             <tr><td>variantFilter</td></tr>
+            <tr><td>testBuildType</td></tr>
         </table>
     </section>
     <section>

@@ -23,11 +23,12 @@ import com.android.annotations.Nullable;
 import com.android.build.OutputFile;
 import com.google.common.collect.ImmutableSet;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Data for per-ABI splits.
+ * DSL object for configuring per-abi splits options.
+ *
+ * <p>See <a href="http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits">APK Splits</a>.
  */
 public class AbiSplitOptions extends SplitOptions {
 
