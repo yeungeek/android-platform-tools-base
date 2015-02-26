@@ -33,7 +33,7 @@ class ArchivesBaseNameTest {
 
     @ClassRule
     static public GradleTestProject project = GradleTestProject.builder()
-            .fromTestProject("basic")
+            .fromSample("basic")
             .create()
     static Map<String, AndroidProject> models
 
