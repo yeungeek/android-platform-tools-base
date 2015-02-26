@@ -15,6 +15,9 @@
  */
 
 package com.android.build.gradle.internal.test
+
+import org.gradle.api.Action
+
 /**
  * Options for running tests.
  */
@@ -36,5 +39,18 @@ class TestOptions {
          * values (i.e. zero or null).
          */
         boolean returnDefaultValues
+
+        /**
+         * Whether unmocked methods from android.jar should throw exceptions or return default
+         * values (i.e. zero or null).
+         */
+        boolean returnDefaultValues(boolean value) {
+            returnDefaultValues = value
+        }
+    }
+
+    /** Configures {@link UnitTests}. */
+    void unitTests(Action<UnitTests> action) {
+        action.execute(unitTests)
     }
 }

@@ -21,6 +21,7 @@ import com.android.annotations.Nullable
 import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.api.TestVariant
+import com.android.build.gradle.api.VariantFilter
 import com.android.build.gradle.internal.CompileOptions
 import com.android.build.gradle.internal.ExtraModelInfo
 import com.android.build.gradle.internal.LoggingUtil
@@ -67,8 +68,8 @@ import static com.android.builder.core.VariantType.UNIT_TEST
  *
  * <p>This is never used directly. Instead,
  *<ul>
- * <li>Plugin 'com.android.application' uses {@link AppExtension}</li>
- * <li>Plugin 'com.android.library' uses {@link LibraryExtension}</li>
+ * <li>Plugin <code>com.android.application</code> uses {@link AppExtension}</li>
+ * <li>Plugin <code>com.android.library</code> uses {@link LibraryExtension}</li>
  * </ul>
  */
 public abstract class BaseExtension {
@@ -100,7 +101,11 @@ public abstract class BaseExtension {
     /** JaCoCo options. */
     final JacocoExtension jacoco
 
-    /** APK splits */
+    /**
+     * APK splits options.
+     *
+     * <p>See <a href="http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits">APK Splits</a>.
+     */
     final Splits splits
 
     /** All product flavors used by this project. */
@@ -116,10 +121,16 @@ public abstract class BaseExtension {
 
     protected Project project
 
-    /** A prefix to be used when creating new resources. Used by Studio */
+    /** A prefix to be used when creating new resources. Used by Studio. */
     String resourcePrefix
 
     List<String> flavorDimensionList
+
+    /**
+     * Name of the build type that will be used when running Android (on-device) tests.
+     *
+     * <p>Defaults to "debug".
+     */
     String testBuildType = "debug"
 
     private String defaultPublishConfig = "release"
@@ -463,27 +474,19 @@ public abstract class BaseExtension {
         return publishNonDefault
     }
 
-    /**
-     * Sets a variant filter to control which variant are excluded. The closure is passed a single
-     * object of type {@link com.android.build.gradle.internal.api.VariantFilter}
-     * @param filter the filter as a closure
-     */
     void variantFilter(Closure<Void> filter) {
         setVariantFilter(filter)
     }
 
-    /**
-     * Sets a variant filter to control which variant are excluded. The closure is passed a single
-     * object of type {@link com.android.build.gradle.internal.api.VariantFilter}
-     * @param filter the filter as a closure
-     */
     void setVariantFilter(Closure<Void> filter) {
         variantFilter = filter
     }
 
     /**
-     * A variant filter to control which variant are excluded. The filter is a closure which
-     * is passed a single object of type {@link com.android.build.gradle.internal.api.VariantFilter}
+     * A variant filter to control which variants are excluded.
+     * <p>The filter is a closure which is passed a single object of type
+     * {@link com.android.build.gradle.internal.api.VariantFilter}. It should set the
+     * {@link VariantFilter#setIgnore(boolean)} flag to filter out the given variant.
      */
     public Closure<Void> getVariantFilter() {
         return variantFilter;
@@ -495,7 +498,7 @@ public abstract class BaseExtension {
 
     /**
      * Returns the list of test variants. Since the collections is built after evaluation,
-     * it should be used with Groovy's <code>all</code> iterator to process future items.
+     * it should be used with Gradle's <code>all</code> iterator to process future items.
      */
     @NonNull
     public DefaultDomainObjectSet<TestVariant> getTestVariants() {
@@ -556,6 +559,10 @@ public abstract class BaseExtension {
 
     /**
      * <strong>Required.</strong> Compile SDK version.
+     *
+     * <p>Your code will be compiled against the android.jar from this API level. You should
+     * generally use the most up-to-date SDK version here. Use the Lint tool to make sure you don't
+     * use APIs not available in earlier platform version without checking.
      *
      * <p>Setter can be called with a string like "android-21" or a number.
      *

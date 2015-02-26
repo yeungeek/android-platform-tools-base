@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package com.android.build.gradle
-
 import com.android.annotations.NonNull
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
@@ -29,10 +28,8 @@ import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.internal.DefaultDomainObjectSet
 import org.gradle.api.internal.project.ProjectInternal
 import org.gradle.internal.reflect.Instantiator
-
 /**
- * 'android' extension for 'com.android.application' project.
- * This extends {@link BaseExtension}
+ * Options for <code>com.android.application</code> projects.
  */
 @CompileStatic
 public class AppExtension extends BaseExtension {
@@ -56,8 +53,7 @@ public class AppExtension extends BaseExtension {
 
     /**
      * Returns the list of Application variants. Since the collections is built after evaluation,
-     * it should be used with Groovy's <code>all</code> iterator to process future items.
-     *
+     * it should be used with Gradle's <code>all</code> iterator to process future items.
      */
     public DefaultDomainObjectSet<ApplicationVariant> getApplicationVariants() {
         return applicationVariantList

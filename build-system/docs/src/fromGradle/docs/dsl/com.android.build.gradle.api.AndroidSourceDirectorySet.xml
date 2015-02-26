@@ -21,10 +21,10 @@
             <thead>
                 <tr><td>Name</td></tr>
             </thead>
-            <tr><td>proguardFiles</td></tr>
-            <tr><td>consumerProguardFiles</td></tr>
-            <tr><td>manifestPlaceholders</td></tr>
-            <tr><td>multiDexEnabled</td></tr>
+            <tr><td>filter</td></tr>
+            <tr><td>name</td></tr>
+            <tr><td>sourceFiles</td></tr>
+            <tr><td>srcDirs</td></tr>
         </table>
     </section>
     <section>
@@ -33,6 +33,8 @@
             <thead>
                 <tr><td>Name</td></tr>
             </thead>
+            <tr><td>srcDir</td></tr>
+            <tr><td>srcDirs</td></tr>
         </table>
     </section>
 </section>
