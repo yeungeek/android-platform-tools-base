@@ -38,6 +38,15 @@ class TestWithSameDepAsAppWithProguard {
     @BeforeClass
     public static void setUp() {
         project.getBuildFile() << """
+buildscript {
+    repositories {
+        maven { url '${project.getRepoDir().toString()}' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:$GradleTestProject.ANDROID_GRADLE_VERSION'
+    }
+}
+
 apply plugin: 'com.android.application'
 
 repositories {
