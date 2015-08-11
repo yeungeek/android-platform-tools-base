@@ -25,6 +25,7 @@ import com.android.build.gradle.internal.TaskManager;
 import com.android.build.gradle.internal.core.Abi;
 import com.android.build.gradle.internal.core.GradleVariantConfiguration;
 import com.android.build.gradle.internal.coverage.JacocoInstrumentTask;
+import com.android.build.gradle.internal.coverage.JacocoReportTask;
 import com.android.build.gradle.internal.tasks.CheckManifest;
 import com.android.build.gradle.internal.tasks.FileSupplier;
 import com.android.build.gradle.internal.tasks.PrepareDependenciesTask;
@@ -109,6 +110,12 @@ public class VariantScope {
     private AndroidTask jacocoIntrumentTask;
 
     /**
+     * This is an instance of {@link JacocoReportTask} in android test variants, an umbrella
+     * {@link Task} in app and lib variants and null in unit test variants.
+     */
+    private AndroidTask<?> coverageReportTask;
+
+    /**
      * Anchor task for post-processing the merged resources to backport some features to earlier
      * API versions, e.g. generate PNGs from vector drawables (vector drawables were added in 21).
      */
@@ -125,6 +132,8 @@ public class VariantScope {
     private AndroidTask<JavaCompile> javacTask;
     @Nullable
     private AndroidTask<JackTask> jackTask;
+
+
 
     // empty anchor compile task to set all compilations tasks as dependents.
     private AndroidTask<Task> compileTask;
@@ -662,5 +671,14 @@ public class VariantScope {
     public void setObfuscationTask(
             AndroidTask<? extends Task> obfuscationTask) {
         this.obfuscationTask = obfuscationTask;
+    }
+
+    public AndroidTask<?> getCoverageReportTask() {
+        return coverageReportTask;
+    }
+
+    public void setCoverageReportTask(
+            AndroidTask<?> coverageReportTask) {
+        this.coverageReportTask = coverageReportTask;
     }
 }
