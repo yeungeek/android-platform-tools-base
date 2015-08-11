@@ -438,18 +438,16 @@ public class SupportAnnotationDetectorTest extends AbstractCheckTest {
                 + "\n"
                 + "import static android.Manifest.permission.ACCESS_COARSE_LOCATION;\n"
                 + "import static android.Manifest.permission.ACCESS_FINE_LOCATION;\n"
-                + "import static android.Manifest.permission.ADD_VOICEMAIL;\n"
-                + "import static android.Manifest.permission.AUTHENTICATE_ACCOUNTS;\n"
+                + "import static android.Manifest.permission.BLUETOOTH;\n"
+                + "import static android.Manifest.permission.READ_SMS;\n"
                 + "\n"
                 + "@SuppressWarnings(\"UnusedDeclaration\")\n"
                 + "public abstract class LocationManager {\n"
-                + "    @RequiresPermission(\"(\" + ACCESS_FINE_LOCATION + \"|| \" + ACCESS_COARSE_LOCATION + \") && (\" + ADD_VOICEMAIL + \" ^ \" + AUTHENTICATE_ACCOUNTS + \")\")\n"
+                + "    @RequiresPermission(\"(\" + ACCESS_FINE_LOCATION + \"|| \" + ACCESS_COARSE_LOCATION + \") && (\" + BLUETOOTH + \" ^ \" + READ_SMS + \")\")\n"
                 + "    public abstract Location myMethod(String provider);\n"
                 + "    public static class Location {\n"
                 + "    }\n"
                 + "}\n");
-
-
 
         private final TestFile mRequirePermissionAnnotation = java("src/android/support/annotation/RequiresPermission.java", ""
                 + "/*\n"
@@ -772,7 +770,7 @@ public class SupportAnnotationDetectorTest extends AbstractCheckTest {
 
     public void testComplexPermission1() throws Exception {
         assertEquals(""
-                + "src/test/pkg/PermissionTest.java:7: Error: Missing permissions required by LocationManager.myMethod: com.android.voicemail.permission.ADD_VOICEMAIL xor android.permission.AUTHENTICATE_ACCOUNTS [MissingPermission]\n"
+                + "src/test/pkg/PermissionTest.java:7: Error: Missing permissions required by LocationManager.myMethod: android.permission.BLUETOOTH xor android.permission.READ_SMS [MissingPermission]\n"
                 + "        LocationManager.Location location = locationManager.myMethod(provider);\n"
                 + "                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 + "1 errors, 0 warnings\n",
@@ -789,7 +787,7 @@ public class SupportAnnotationDetectorTest extends AbstractCheckTest {
                 lintProject(
                         getManifestWithPermissions(14,
                                 "android.permission.ACCESS_FINE_LOCATION",
-                                "com.android.voicemail.permission.ADD_VOICEMAIL"),
+                                "android.permission.BLUETOOTH"),
                         mPermissionTest,
                         mComplexLocationManagerStub,
                         mRequirePermissionAnnotation));
@@ -797,15 +795,15 @@ public class SupportAnnotationDetectorTest extends AbstractCheckTest {
 
     public void testComplexPermission3() throws Exception {
         assertEquals(""
-                + "src/test/pkg/PermissionTest.java:7: Error: Missing permissions required by LocationManager.myMethod: com.android.voicemail.permission.ADD_VOICEMAIL xor android.permission.AUTHENTICATE_ACCOUNTS [MissingPermission]\n"
+                + "src/test/pkg/PermissionTest.java:7: Error: Missing permissions required by LocationManager.myMethod: android.permission.BLUETOOTH xor android.permission.READ_SMS [MissingPermission]\n"
                 + "        LocationManager.Location location = locationManager.myMethod(provider);\n"
                 + "                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 + "1 errors, 0 warnings\n",
                 lintProject(
                         getManifestWithPermissions(14,
                                 "android.permission.ACCESS_FINE_LOCATION",
-                                "com.android.voicemail.permission.ADD_VOICEMAIL",
-                                "android.permission.AUTHENTICATE_ACCOUNTS"),
+                                "android.permission.BLUETOOTH",
+                                "android.permission.READ_SMS"),
                         mPermissionTest,
                         mComplexLocationManagerStub,
                         mRequirePermissionAnnotation));
