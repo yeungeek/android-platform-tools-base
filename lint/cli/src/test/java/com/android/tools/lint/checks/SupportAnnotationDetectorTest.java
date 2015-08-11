@@ -221,6 +221,24 @@ public class SupportAnnotationDetectorTest extends AbstractCheckTest {
                 ));
     }
 
+    public void testResourceTypesIssue182433() throws Exception {
+        // Regression test for https://code.google.com/p/android/issues/detail?id=182433
+        assertEquals("No warnings.",
+                lintProject(
+                        java("src/test/pkg/ResourceTypeTest.java", ""
+                                + "package test.pkg;\n"
+                                + "import android.app.Activity;\n"
+                                + "import android.content.res.TypedArray;\n"
+                                + "\n"
+                                + "@SuppressWarnings(\"unused\")\n"
+                                + "public class ResourceTypeTest extends Activity {\n"
+                                + "    public static void test(TypedArray typedArray) {\n"
+                                + "       typedArray.getResourceId(2 /* index */, 0 /* invalid drawableRes */);\n"
+                                + "    }\n"
+                                + "}\n")
+                ));
+    }
+
     public void testColorInt() throws Exception {
         // Needs updated annotations!
         assertEquals((SDK_ANNOTATIONS_AVAILABLE ? ""
