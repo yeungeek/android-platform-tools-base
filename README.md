@@ -12,6 +12,24 @@ new build system code at:
 sync mirror code period: 1 week
 
 ## Release notes
+__1.4.0-beta__ (2015/08/24)  
+* Instead of processing java resources during the packaging of the APK,
+moved this upfront before the obfuscation tasks. This will allow
+the obfuscation tasks to have a chance to adapt the java resources
+following packages obfuscation
+* made java resources extraction from libraries incremental tasks.
+* Fixed issue with using jni code in experimental library plugin.
+* Allow platform version to be set separately from compileSdkVersion in experimental plugin.
+* Prevent a consumer of a library removing a resource from that library, which would lead to a runtime NoSuchFieldError.
+* Allow a comma-separated list of serials in ANDROID_SERIAL when installing or running tests
+* Fix installation failure on L+ devices when the APK name contains a space.
+* Fix various issues related to AAPT error output.
+* Vector drawable support for generating PNGs at build time.
+    * PNGs are generated for every vector drawable found in a resource directory that does not specify an API version (or specifies a version lower than 21).
+    * This only happens if minSdk is below 21.
+    * Densities to use can be set using the new "generatedDensities" property in defaultConfig or per-flavor.
+* Multiple modules (e.g. app and lib) now share the same mockable android.jar (for unit testing) which is generated only once. Delete $rootDir/build to regenerate it.
+
 __1.3.1__ (2015/08/11)  
 * fixed issue when ZipAlign task would not consume previous' task output when it the file name is customized.
 * fixed packaging of Renderscript with NDK
